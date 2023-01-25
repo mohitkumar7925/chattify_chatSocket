@@ -2,25 +2,36 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
+const { default: axios } = require("axios");
 const app = express();
 const server = http.createServer(app);
-let io = new Server();
+app.use(cors());
+let io = new Server({ cors: "*" });
 io.listen(server);
+
 
 io.sockets.on("connection", (socket) => {
       console.log("connected", socket.id);
 
-      
-
       socket.on("message", (data) => {
-            console.log("message event", data);
-            socket.emit("received", data , ack=>{
-                console.log('ack',ack);
-            });
+            console.log("message will be sent to ", data.toUser_id);
+            socket.broadcast.emit(data.toUser_id, data);
+            socket.emit(data.fromUser_id, data);
+            axios.post("http://10.1.6.104:4000/user/message",data)
+            
+                  
+                  .then((res) => {
+                        if (res.status) {
+                              console.log("saved");
+                        } else {
+                              console.log("Error in saved", res.message);
+                        }
+                  }).catch(er=>{
+                        console.log('error in saved CATCH',er);
+                  })
+                  
+                  
       });
-
-
-      
 });
 
 server.listen(4001, () => {
