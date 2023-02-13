@@ -13,13 +13,13 @@ io.listen(server);
 io.sockets.on("connection", (socket) => {
       console.log("connected", socket.id);
 
+
       socket.on("message", (data) => {
             console.log("message will be sent to ", data.toUser_id);
             socket.broadcast.emit(data.toUser_id, data);
             socket.emit(data.fromUser_id, data);
-            axios.post("http://10.1.6.104:4000/user/message",data)
-            
-                  
+
+            axios.post("http://10.1.4.1:4000/user/message",data)    
                   .then((res) => {
                         if (res.status) {
                               console.log("saved");
