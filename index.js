@@ -15,11 +15,11 @@ io.sockets.on("connection", (socket) => {
 
 
       socket.on("message", (data) => {
-            console.log("message will be sent to ", data.toUser_id);
+            console.log("message will be sent to ", data.toUser_id , '    ->',data);
             socket.broadcast.emit(data.toUser_id, data);
             socket.emit(data.fromUser_id, data);
 
-            axios.post("http://10.1.4.1:4000/user/message",data)    
+            axios.post("http://192.168.42.247:4000/user/message",data)    
                   .then((res) => {
                         if (res.status) {
                               console.log("saved");
