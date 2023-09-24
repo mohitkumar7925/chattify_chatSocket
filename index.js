@@ -21,7 +21,8 @@ io.sockets.on("connection", (socket) => {
             // axios.post("http://10.1.4.1:4000/user/message",data)
             // axios.post("http://192.168.42.247:4000/user/message",data)
             // axios.post("http://backend_container:4000/user/message", data)
-            axios.post(`http://${process.env.BACKEND_HOST}:4000/user/message`, data)
+            // axios.post(`http://${process.env.BACKEND_HOST}:4000/user/message`, data)
+            axios.post(`http://localhost:4000/user/message`, data)
                   .then((res) => {
                         if (res.status) {
                               console.log("saved");
